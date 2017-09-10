@@ -1,0 +1,287 @@
+<%
+    let client = data.client;
+    let rounds = data.rounds;
+    let withdrawals = data.withdrawals;
+    let deposits = data.deposits;
+    let referrals = data.referrals;
+    let transfer = data.transfer;
+    let payStatus = mw.config.get('payStatus');
+%>
+<style>
+    .table__td{
+        text-align: left;
+    }
+    .standart-input{
+        width: 100% !important;
+        max-width: 100%;
+    }
+</style>
+<main class="wrapp-content">
+    <div class="container">
+        <%- include ../elements/statistics %>
+    </div>
+
+    <div class="admin-content">
+        <%- include ../elements/admin-header %>
+        <div class="admin-content__table-content">
+            <div class="table-content__wrap-table">
+                <div class="table-content__title">
+                    <h2 class="table-content__h2">Пользователь - <span class="js-paste-username"><%= client.username %></span></h2>
+                </div>
+                <div class="table-content__table-group">
+                    <table class="table-content__table">
+                        <tbody class="table__tbody">
+                            <tr class="table__tr">
+                                <th class="table__th">#</th>
+                                <td class="table__td"><%= client.id %></td>
+                            </tr>
+                            <tr class="table__tr">
+                                <th class="table__th">Логин</th>
+                                <td class="table__td">
+                                    <input class="standart-input js-field-change" name="username" data-id="<%= client._id %>" placeholder="Введите новый логин" type="text" data-type="users" value="<%= client.username %>">
+                                </td>
+                            </tr>
+                            <tr class="table__tr">
+                                <th class="table__th">Новый пароль</th>
+                                <td class="table__td">
+                                    <input class="standart-input js-field-change" name="password" data-id="<%= client._id %>" placeholder="Введите новый пароль" type="password" data-type="users" value="<%= client.msg %>">
+                                </td>
+                            </tr>
+                            <tr class="table__tr">
+                                <th class="table__th">E-mail</th>
+                                <td class="table__td">
+                                    <input class="standart-input js-field-change" name="email" data-id="<%= client._id %>" placeholder="Введите новый E-mail" type="text" data-type="users" value="<%= client.email %>">
+                                </td>
+                            </tr>
+                            <tr class="table__tr">
+                                <th class="table__th">Имя и фамилия</th>
+                                <td class="table__td">
+                                    <input class="standart-input js-field-change" name="displayName" data-id="<%= client._id %>" placeholder="Введите имя и фамилию" type="text" data-type="users" value="<%= client.displayName %>">
+                                </td>
+                            </tr>
+                            <tr class="table__tr">
+                                <th class="table__th">Ввёл денег</th>
+                                <td class="table__td"><%= client.totalIn %></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table-content__table">
+                        <tbody class="table__tbody">
+                            <tr class="table__tr">
+                                <th class="table__th">Ключ</th>
+                                <td class="table__td"><%= client._id %></td>
+                            </tr>
+                            <tr class="table__tr table__tr--avatar">
+                                <th class="table__th">Аватар</th>
+                                <td class="table__td">
+                                    <% if(client.photo !== ""){ %>
+                                    <p><img id="imgAvatar" src="<%= client.photo %>" alt="Аватар юзера"></p>
+                                    <label class="standart-label" for="avatarID">Сменить:</label> 
+                                    <% }else{ %>
+                                    <label class="standart-label" for="avatarID">Поставить: </label>
+                                    <% } %>
+                                    <input data-imgsef="#imgAvatar" id="avatarID" class="js-field-change" name="photo" data-id="<%= client._id %>" placeholder="Вставьте картинку" type="file" data-type="users">
+                                </td>
+                            </tr>
+                            <tr class="table__tr">
+                                <th class="table__th">Баланс</th>
+                                <td class="table__td">
+                                    <input style="width: 100px;" class="standart-input js-field-change" name="cash" data-id="<%= client._id %>" placeholder="Введите баланс" type="text" data-type="users" value="<%= client.cash %>">
+                                </td>
+                            </tr>
+                            <tr class="table__tr">
+                                <th class="table__th">Звание (Юзер - 0, Админ - 1)</th>
+                                <td class="table__td">
+                                    <input class="standart-input js-field-change" name="role" data-id="<%= client._id %>" placeholder="Юзер - 0, Админ - 1" type="text" data-type="users" value="<%= client.role %>">
+                                </td>
+                               <!--<th class="table__th" style="padding: 21px 12px;">Прочее</th>
+                                 <td class="table__td">Создан: <%= mw.getDate(client.created) %> / IP: <%= client.ip %></td> -->
+                            </tr>
+                            <tr class="table__tr">
+                                <th class="table__th">Вывёл денег</th>
+                                <td class="table__td"><%= client.totalOut %></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <% if(rounds.length > 0){ %>
+        <div class="admin-content__table-content">
+            <div class="table-content__wrap-table">
+                <div class="table-content__title">
+                    <h2 class="table-content__h2">Раунды <a target="_blank" href="/admin/rounds?user=<%= client.id %>">показать всё</a></h2>
+                </div>
+                <table class="table-content__table">
+                    <thead class="table__thead">
+                        <tr class="table__tr">
+                            <th class="table__th">Номер раунда</th>
+                            <th class="table__th">Комната</th>
+                            <th class="table__th">Сумма / кол-во ставок</th>
+                            <th class="table__th">Выиграш</th>
+                            <th class="table__th">Дата</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table__tbody">
+                    <% for(let key in rounds){
+                        let val = rounds[key]; %>
+                        <tr class="table__tr">
+                            <td class="table__td"><%= val.id %> <!--<a target="_blank" href="/admin/rounds?id=<%= val._id %>"><i>(перейти)</i></a>--></td>
+                            <td class="table__td"><%= val.roomName %></td>
+                            <td class="table__td"><%= val.tickets.amount %> / <%= val.tickets.count %></td>
+                            <td class="table__td"><%= val.winAmount %></td>
+                            <td class="table__td"><%= mw.getDate(val.date) %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <% } %>
+        <% if(deposits.length > 0){ %>
+        <div class="admin-content__table-content">
+            <div class="table-content__wrap-table">
+                <div class="table-content__title">
+                    <h2 class="table-content__h2">Статистика вводов <a target="_blank" href="/admin/deposits?params[user]=<%= client._id %>">показать всё</a></h2>
+                </div>
+                <table class="table-content__table">
+                    <thead class="table__thead">
+                    <tr class="table__tr">
+                        <th class="table__th">Транзакция #</th>
+                        <th class="table__th">Сумма</th>
+                        <th class="table__th">Тип</th>
+                        <th class="table__th">Статус</th>
+                        <th class="table__th">Создан</th>
+                        <th class="table__th">Комментарий</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table__tbody">
+                    <% for(let key in deposits){
+                        var val = deposits[key];
+                        var status = mw.getPayStatus(val);
+                    %>
+                    <tr class="table__tr">
+                        <td class="table__td"><%= val._id %></td>
+                        <td class="table__td"><%= val.amount %></td>
+                        <td class="table__td"><%= val.type %></td>
+                        <td class="table__td"><%= status[0] %><% if(status[1]){ %> (<%= status[1] %>) <% } %></td>
+                        <td class="table__td"><%= mw.getDate(val.created) %></td>
+                        <td class="table__td"><%= val.comment %></td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <% } %>
+        <% if(withdrawals.length > 0){ %>
+        <div class="admin-content__table-content">
+            <div class="table-content__wrap-table">
+                <div class="table-content__title">
+                    <h2 class="table-content__h2">Статистика выводов <a target="_blank" href="/admin/withdrawals?params[user]=<%= client._id %>">показать всё</a></h2>
+                </div>
+                <table class="table-content__table">
+                    <thead class="table__thead">
+                        <tr class="table__tr">
+                            <th class="table__th">Транзакция #</th>
+                            <th class="table__th">Сумма</th>
+                            <th class="table__th">Тип выплаты</th>
+                            <th class="table__th">Статус</th>
+                            <th class="table__th">Создан</th>
+                            <th class="table__th">Комментарий</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table__tbody">
+                    <% for(let key in withdrawals){
+                        var val = withdrawals[key];
+                        var status = mw.getPayStatus(val);
+                    %>
+                        <tr class="table__tr">
+                            <td class="table__td"><%= val._id %></td>
+                            <td class="table__td"><%= val.amount %></td>
+                            <td class="table__td"><%= val.type %></td>
+                            <td class="table__td"><%= status[0] %><% if(status[1]){ %> (<%= status[1] %>) <% } %></td>
+                            <td class="table__td"><%= mw.getDate(val.created) %></td>
+                            <td class="table__td"><%= val.comment %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <% } %>
+        <% if(referrals.length > 0){ %>
+        <div class="admin-content__table-content">
+            <div class="table-content__wrap-table">
+                <div class="table-content__title">
+                    <h2 class="table-content__h2">Статистика рефералов <a target="_blank" href="/admin/statrefs?params[user]=<%= client._id %>">показать всё</a></h2>
+                </div>
+                <table class="table-content__table">
+                    <thead class="table__thead">
+                        <tr class="table__tr">
+                            <th class="table__th">#</th>
+                            <th class="table__th">Пользователь</th>
+                            <th class="table__th">% от депозитов</th>
+                            <th class="table__th">% от выигрышей</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table__tbody">
+                        <% let i = 1; for(let key in referrals){
+                            let val = referrals[key];
+                            let stats = val.refStats;
+                            let deposit = (stats.deposit) ? stats.deposit : 0;
+                            let winner = (stats.winner) ? stats.winner : 0; %>
+                        <tr class="table__tr">
+                            <td class="table__td"><%= i %></td>
+                            <td class="table__td"><%= mw.genUserName(val) %></td>
+                            <td class="table__td"><%= deposit %></td>
+                            <td class="table__td"><%= winner %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <% } %>
+        <% if(transfer.length > 0){ %>
+        <div class="admin-content__table-content">
+            <div class="table-content__wrap-table">
+                <div class="table-content__title">
+                    <h2 class="table-content__h2">Статистика переводов <a target="_blank" href="/admin/transfermoney?params[user]=<%= client._id %>">показать всё</a></h2>
+                </div>
+                <table class="table-content__table">
+                    <thead class="table__thead">
+                        <tr class="table__tr">
+                            <th class="table__th">#</th>
+                            <th class="table__th">Роль</th>
+                            <th class="table__th">Поручик</th>
+                            <th class="table__th">Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table__tbody">
+                        <% let i = 1; for(let key in transfer){
+                            let val = transfer[key];
+                            let type = "";
+                            let user = "";
+                            if(val.sender._id.toString() == client._id.toString()){
+                                user = val.receiver;
+                                type = "Отправитель";
+                            }else{
+                                user = val.sender;
+                                type = "Получатель";
+                            }
+                        %>
+                        <tr class="table__tr">
+                            <td class="table__td"><%= i %></td>
+                            <td class="table__td"><%= type %></td>
+                            <td class="table__td"><a href="/admin/users/profile?id=<%= user._id %>"><%= mw.genUserName(user) %></a></td>
+                            <td class="table__td"><%= (status == "0") ? "Не обработан" : "Подтверждён" %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</main>

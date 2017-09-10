@@ -1,0 +1,25 @@
+.pagination {
+    display: inline-block;
+    margin: 15px 0;
+}
+
+.pagination a, .pagination span {
+    color: #ce8f2f;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ce8f2f;
+    border-top: 2px solid #ce8f2f;
+    border-bottom: 2px solid #ce8f2f;
+}
+
+.pagination a.active {
+    background-color: #ffffff;
+    color: #ce8f2f;
+}
+.pagination span.disabled{
+    color: #dcdcdc;
+    background-color: #78592e;
+}
+.pagination a:hover:not(.active) {background-color: #ffffff;}

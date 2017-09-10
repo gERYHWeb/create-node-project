@@ -1,0 +1,70 @@
+<%
+    var countDeps = newDeposits;
+    var countWiths = newWithdrawals;
+    var countTransfers = newTransfers;
+%>
+<div class="admin-content__title">
+    <h2 class="admin-content__h2">Привет, Админ!</h2>
+</div>
+<div class="admin-content__menu">
+    <nav class="menu__navbar navbar">
+        <ul class="navbar__ul">
+            <li class="navbar__li">
+                <a href="/admin/" class="navbar__link">
+                    <span class="navbar__title">Главная</span>
+                    <i class="navbar__counter"></i>
+                </a>
+            </li>
+            <li class="navbar__li">
+                <a href="/admin/users" class="navbar__link">
+                    <span class="navbar__title">Пользователи</span>
+                    <!--<strong class="navbar__counter">( +2 )</strong>-->
+                </a>
+            </li>
+            <li class="navbar__li">
+                <a href="/admin/chat" class="navbar__link">
+                    <span class="navbar__title">Чат</span>
+                </a>
+            </li>
+            <li class="navbar__li">
+                <a href="/admin/rounds" class="navbar__link">
+                    <span class="navbar__title">Раунды</span>
+                </a>
+            </li>
+            <li class="navbar__li">
+                <a href="/admin/rooms" class="navbar__link">
+                    <span class="navbar__title">Комнаты</span>
+                </a>
+            </li>
+            <li class="navbar__li">
+                <a href="/admin/statrefs" class="navbar__link">
+                    <span class="navbar__title">Стат. рефер.</span>
+                </a>
+            </li>
+            <li class="navbar__li">
+                <a href="/admin/transfermoney?params[status]=0" class="navbar__link">
+                    <span class="navbar__title">Переводы</span>
+                    <% if(countTransfers){ %>
+                    <strong class="navbar__counter">( +<%= countTransfers; %> )</strong>
+                    <% } %>
+                </a>
+            </li>
+            <li class="navbar__li">
+                <a href="/admin/deposits?params[status]=0" class="navbar__link">
+                    <span class="navbar__title">Депозиты</span>
+                    <% if(countDeps){ %>
+                    <strong class="navbar__counter">( +<%= countDeps; %> )</strong>
+                    <% } %>
+                </a>
+            </li>
+            <li class="navbar__li">
+                <a href="/admin/withdrawals?params[status]=0" class="navbar__link">
+                    <span class="navbar__title">Выводы</span>
+                    <% if(countWiths){ %>
+                    <strong class="navbar__counter">( +<%= countWiths; %> )</strong>
+                    <% } %>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

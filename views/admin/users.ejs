@@ -1,0 +1,63 @@
+<%
+    var items = data.items;
+%>
+<main class="wrapp-content">
+    <div class="container">
+        <%- include ../elements/statistics %>
+    </div>
+
+    <div class="admin-content">
+        <%- include ../elements/admin-header %>
+        <div class="admin-content__table-content">
+            <div class="table-content__wrap-table">
+                <div class="table-content__title">
+                    <h2 class="table-content__h2">Пользователи</h2>
+                </div>
+                <table class="table-content__table">
+                    <thead class="table__thead">
+                    <tr class="table__tr">
+                        <th class="table__th">#</th>
+                        <th class="table__th">Логин</th>
+                        <th class="table__th">Новый пароль</th>
+                        <th class="table__th">Email</th>
+                        <th class="table__th">Баланс</th>
+                        <th class="table__th">Управление</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table__tbody">
+                    <% for(var key in items){
+                        var val = items[key]; %>
+                    <tr class="table__tr">
+                        <td class="table__td"><%= val.id %></td>
+                        <td class="table__td">
+                            <input class="standart-input js-field-change" name="username" data-id="<%= val._id %>" placeholder="Новый логин" type="text" data-type="users" value="<%= val.username %>">
+                        </td>
+                        <td class="table__td">
+                            <input class="standart-input js-field-change" name="password" data-id="<%= val._id %>" placeholder="Новый пароль" type="password" data-type="users" value="<%= val.msg %>">
+                        </td>
+                        <td class="table__td">
+                            <input class="standart-input js-field-change" name="email" data-id="<%= val._id %>" placeholder="Новый E-mail" type="text" data-type="users" value="<%= val.email %>">
+                        </td>
+                        <td class="table__td">
+                            <input style="width: 100px;" class="standart-input js-field-change" name="cash" data-id="<%= val._id %>" placeholder="Баланс" type="text" data-type="users" value="<%= val.cash %>">
+                        </td>
+                        <td class="table__td">
+                            <a class="btn btn-info" href="/admin/users/profile?id=<%= val._id %>">Редактировать</a>
+                            <% if(val.isBanned){ %>
+                            <a class="btn btn-primary js-ajax-link" href="/admin/users/unban?id=<%= val._id %>">Разбанить</a>
+                            <% }else{ %>
+                            <a class="btn btn-warning isConfirm js-ajax-link" data-msg="Вы уверены, что хотите забанить этого пользователя?" href="/admin/users/ban?id=<%= val._id %>">Забанить</a>
+                            <% } %>
+                            <% if(false){ %>
+                            <a class="btn btn-danger isConfirm js-ajax-link" data-msg="Вы уверены, что хотите удалить этого пользователя?" href="/admin/users/delete?id=<%= val._id %>">Удалить</a>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+                <%- include ../elements/paginator %>
+            </div>
+        </div>
+    </div>
+</main>

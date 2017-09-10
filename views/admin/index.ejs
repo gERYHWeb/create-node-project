@@ -1,0 +1,83 @@
+<%
+    var items = data.items;
+%>
+<main class="wrapp-content">
+    <div class="container">
+        <%- include ../elements/statistics %>
+    </div>
+
+    <div class="admin-content">
+        <%- include ../elements/admin-header %>
+        <div class="admin-content__table-content">
+            <div class="table-content__wrap-table">
+                <div class="table-content__title">
+                    <h2 class="table-content__h2">Общая статистика</h2>
+                </div>
+                <table class="table-content__table">
+                    <thead class="table__thead">
+                    <tr class="table__tr">
+                        <th class="table__th">Пользователей</th>
+                        <th class="table__th">Депозитов</th>
+                        <th class="table__th">Выводов</th>
+                        <th class="table__th">Ставки</th>
+                        <th class="table__th">Раунды</th>
+                        <th class="table__th">Сообщения (чат)</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table__tbody">
+                        <tr class="table__tr">
+                            <td class="table__td"><%= data.global.users %></td>
+                            <td class="table__td"><%= data.global.deps.count %> (<%= data.global.deps.sum %> руб.)</td>
+                            <td class="table__td"><%= data.global.wds.count %> (<%= data.global.wds.sum %> руб.)</td>
+                            <td class="table__td"><%= data.global.tickets.count %> (<%= data.global.tickets.sum %> руб.)</td>
+                            <td class="table__td"><%= data.global.rounds.count %> (<%= data.global.rounds.sum %> руб.)</td>
+                            <td class="table__td"><%= data.global.chats %></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="admin-content__table-content">
+            <div class="table-content__wrap-table">
+                <div class="table-content__title">
+                    <h2 class="table-content__h2">Последние 10 пользователей (<a href="/admin/users">показать всё</a>)</h2>
+                </div>
+                <table class="table-content__table">
+                    <thead class="table__thead">
+                    <tr class="table__tr">
+                        <th class="table__th">#</th>
+                        <th class="table__th">Логин</th>
+                        <th class="table__th">Тип</th>
+                        <th class="table__th">Email</th>
+                        <th class="table__th">Баланс</th>
+                        <th class="table__th">Управление</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table__tbody">
+                    <% for(var key in data.users){
+                        var val = data.users[key]; %>
+                        <tr class="table__tr">
+                            <td class="table__td"><%= val.id %></td>
+                            <td class="table__td"><%= val.username %></td>
+                            <td class="table__td"><%= (val.sn) ? val.sn : "local" %></td>
+                            <td class="table__td"><%= val.email %></td>
+                            <td class="table__td"><%= val.cash %></td>
+                            <td class="table__td">
+                                <a class="btn btn-info" href="/admin/users/profile?id=<%= val._id %>">Редактировать</a>
+                                <% if(val.isBanned){ %>
+                                <a class="btn btn-primary js-ajax-link" href="/admin/users/unban?id=<%= val._id %>">Разбанить</a>
+                                <% }else{ %>
+                                <a class="btn btn-warning isConfirm js-ajax-link" data-msg="Вы уверены, что хотите забанить этого пользователя?" href="/admin/users/ban?id=<%= val._id %>">Забанить</a>
+                                <% } %>
+                                <% if(false){ %>
+                                <a class="btn btn-danger isConfirm js-ajax-link" data-msg="Вы уверены, что хотите удалить этого пользователя?" href="/admin/users/delete?id=<%= val._id %>">Удалить</a>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>

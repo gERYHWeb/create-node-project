@@ -1,0 +1,32 @@
+<%
+var pages = data.pages;
+function getIcon(type){
+    switch(type){
+        case "first":
+            %>&laquo;<%
+        break;
+        case "last":
+            %>&raquo;<%
+        break;
+        case "next":
+            %>&rsaquo;<%
+        break;
+        case "prev":
+            %>&lsaquo;<%
+        break;
+        default:
+            return type;
+        break;
+    }
+}
+if(pages){ %>
+<link rel="stylesheet" href="/stylesheets/paginator.css">
+<div class="pagination">
+    <% for(var key in pages){
+        var val = pages[key]; %>
+        <% if(!val.isDisabled){ %>
+        <a <% if(val.isActive){ %> class="active" <% } %> href="<%= val.href %>"><%= getIcon(val.title) %></a>
+        <% } %>
+    <% } %>
+</div>
+<% } %>
