@@ -1,14 +1,14 @@
 {
 	"port": 3000,
 	"mongoose": {
-		"uri": "mongodb://localhost/crm",
+		"uri": "mongodb://localhost/name-db",
 		"options": {
 			"useMongoClient": true
 		}
 	},
-	"appName": "127.0.0.1",
+	"appName": "APPNAME",
 	"session": {
-		"secret": "KillerIsJim",
+		"secret": "secret-key",
 		"key": "sid",
 		"cookie": {
 			"path": "/",
