@@ -6,9 +6,12 @@ if ('DEBUG_FD' in process.env) {
 global.reqlib = require('app-root-path').require;
 global.services = reqlib('/lib/services');
 global.logger = reqlib('/lib/logger');
-global.log = services.setLog;
+global.userLog = services.userLog;
 
+// start app Express
 var express = require('express');
+var app = express();
+var mongoose = reqlib('/lib/mongoose');
 var expressLayouts = require('express-ejs-layouts');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -20,17 +23,12 @@ var bodyParser = require('body-parser');
 var errorhandler = require('errorhandler');
 var session = require('express-session');
 
-// start app Express
-var app = express();
-
-var mongoose = reqlib('/lib/mongoose');
-
 // configuration
 app.set('config', config);
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'layout');
 
@@ -40,8 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-var sessionStore = reqlib('/lib/sessionStore');
-
+let sessionStore = reqlib('/lib/sessionStore');
 app.use(session({
   secret: config.get('session:secret'),
   key: config.get('session:key'),
@@ -53,7 +50,6 @@ app.use(session({
 
 // Passport and oAuth
 let passport = require('passport');
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -62,8 +58,8 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, next) => {
-  let Clients = reqlib('/models/clients');
-  Clients.findOne({ _id: id }).exec().then((user) => {
+  let Users = reqlib('/models/users');
+  Users.findOne({ _id: id }).exec().then((user) => {
     if (user) {
       next(null, user);
     } else {
@@ -105,7 +101,12 @@ app.use(function(err, req, res, next) {
   var status = err.status || 500;
   res.status(status);
   res.render('client/error', {
-    title: 'Error #' + status,
+    type: "error",
+    title: 'Ошибка #404',
+    h2: "Страница не найдена",
+    h3: "Возможно, эта страница была удалена либо допущена ошибка в адресе",
+    link: "/",
+    linkName: "Перейти на главную страницу →",
     token: ((!("user" in req.session)) ? null : req.session.user.token)
   });
 });

@@ -1,18 +1,17 @@
 'use strict';
-var Clients = reqlib('/models/clients');
+var Users = reqlib('/models/users');
 var crypto = require('crypto');
 var config = reqlib('/config/');
+var ip = require('ip');
 
 var createToken = function() {
     return crypto.randomBytes(16).toString('hex');
 };
 
 module.exports = async function(req, res, next) {
-console.log(11);
     res.locals.token = null;
     res.locals.user = null;
     try {
-        var ip = require('ip');
         if(!req.headers.accept) {
             return next();
         }
@@ -24,7 +23,7 @@ console.log(11);
         req.session.user.token = token;
         var user = req.session.user;
 
-        let client = await Clients.findOne({
+        let client = await Users.findOne({
             _id: user._id
         }).exec();
 
@@ -32,7 +31,7 @@ console.log(11);
         res.locals.token = token;
         res.locals.user = user;
 
-        await Clients.findOneAndUpdate({
+        await Users.findOneAndUpdate({
             _id: user._id
         }, {
             token: token,

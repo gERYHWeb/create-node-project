@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 // MODELS
-let Clients = reqlib('/models/clients');
+let Users = reqlib('/models/users');
 
 router.get('/', async function(req, res, next){
     try{

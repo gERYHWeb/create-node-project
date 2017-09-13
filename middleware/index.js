@@ -4,7 +4,7 @@ var _ = require('underscore');
 var moment = require('moment');
 var config = reqlib('/config/');
 var services = reqlib('/lib/services');
-var Clients = reqlib('/models/clients');
+var Users = reqlib('/models/users');
 
 module.exports = async function(req, res, next) {
     try {

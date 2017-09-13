@@ -9,7 +9,7 @@ var crypto = require('crypto');
 var _ = require('underscore');
 
 // Mongoose Models
-var Clients = reqlib('/models/clients');
+var Users = reqlib('/models/users');
 
 module.exports = function(req, res, next) {
     var role = 0;
@@ -33,7 +33,7 @@ module.exports = function(req, res, next) {
             var error = "";
             var typeString = (value && typeof value === "string");
             if (name === "email") {
-                let user = await Clients.findOne({
+                let user = await Users.findOne({
                     email: value
                 });
                 if (user) {
@@ -50,7 +50,7 @@ module.exports = function(req, res, next) {
                     return error;
                 }
             } else if (name === "username" && typeString) {
-                let user = await Clients.findOne({
+                let user = await Users.findOne({
                     username: value
                 });
                 if (user) {
@@ -167,7 +167,7 @@ module.exports = function(req, res, next) {
                 update.photo = uploadFile.url;
             }
 
-            let client = await Clients.findOne({
+            let client = await Users.findOne({
                 _id: _id
             }).exec();
             if (!client) {
@@ -192,9 +192,9 @@ module.exports = function(req, res, next) {
                     params: log
                 });
                 if ("password" in update) {
-                    update.password = Clients.statEncryptPassword(client.id + password);
+                    update.password = Users.statEncryptPassword(client.id + password);
                 }
-                client = await Clients.update({
+                client = await Users.update({
                     _id: _id
                 }, update, {
                     upsert: false
@@ -202,7 +202,7 @@ module.exports = function(req, res, next) {
                 if (!client) {
                     return services.sendError("not_found_user", res);
                 } else {
-                    client = await Clients.findOne({
+                    client = await Users.findOne({
                         _id: _id
                     }).exec();
                     if (client) {

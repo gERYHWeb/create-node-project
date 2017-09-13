@@ -27,108 +27,15 @@
         <!-- Main style -->
         <link rel="stylesheet" href="/stylesheets/style.css">
 
-        <% if(adminpanel){ %>
+        <% if(admin){ %>
         <!-- Admin styles -->
         <link rel="stylesheet" href="/stylesheets/admin-styles.css">
         <% } %>
         <script type="text/javascript" src="/javascripts/HackTimer.silent.js"></script>
-        <% if(gamePage){ %>
-        <script>requestAnimationFrame=function(i){setTimeout(i,function(){var i;return void 0!==document.hidden?i="visibilityState":void 0!==document.mozHidden?i="mozVisibilityState":void 0!==document.msHidden?i="msVisibilityState":void 0!==document.webkitHidden&&(i="webkitVisibilityState"),"hidden"===document[i]||document.hidden}()?400:17)};</script>
-        <% } %>
     </head>
 
     <body>
         <script type="text/x-config">
-            {
-                "msgs": {
-                    <% if(adminpanel){ %>
-                    "not_updated_username": "Логин не обновился.",
-                    "not_updated_msg": "Сообщение не обновилось.",
-                    "not_exists_msg": "Сообщение не найдено.",
-                    "undefined_field": "Поле не найдено.",
-                    "not_found_item": "Не найден такой идентификатор.",
-                    "invalid_roomname": "Неправильно указана комната",
-                    "invalid_timeround": "Неправильно указано время раунда",
-                    "invalid_timeround_min": "Мин. время раунда - 10 сек.",
-                    "invalid_timeround_max": "Макс. время раунда - 180 сек.",
-                    "invalid_minbet": "Неправильно указана мин. ставка",
-                    "invalid_maxbet": "Неправильно указана макс. ставка",
-                    <% } %>
-                    "invalid_username": "Некорректно указан логин",
-                    "invalid_username_min": "Некорректно указан логин (мин. 4 симв.)",
-                    "invalid_username_max": "Некорректно указан логин (макс. 150 симв.)",
-                    "invalid_confirm_password": "Неправильно указано подтверждение пароля",
-                    "not_update_round": "Раунд не обновился",
-                    "not_added_sum": "Деньги не были зачислены! Напишите в поддержку.",
-                    "not_found_game": "Игра не найдена.",
-                    "not_found_email": "E-mail не найден.",
-                    "success_recovery": "Пароль отправлен Вам на почту.",
-                    "invalid_password": "Некорректный пароль",
-                    "invalid_password_min": "Короткий пароль (мин. длина 6 симв.)",
-                    "invalid_password_max": "Длинный пароль (макс. длина 150 симв.)",
-                    "invalid_phone": "Некорректно указан телефон",
-                    "invalid_email": "Некорректно указан e-mail",
-                    "forbidden": "Доступ запрещён!",
-                    "money_successfully_sent": "Деньги успешно отправлены",
-                    "user_already_exists": "Такой логин уже зарегистрирован в системе",
-                    "email_already_exists": "Такой email уже зарегистрирован в системе",
-                    "updated_profile": "Профиль обновлён",
-                    "not_found_user": "Пользователь не найден.",
-                    "no_data": "Нет данных для отображения",
-                    "not_uploaded_file": "Файл не загрузился",
-                    "success_auth": "Вы успешно авторизовались",
-                    "empty_bet": "Введите ставку в поле",
-                    "empty_room": "Некорректное значение.",
-                    "undefined_room": "Комната не найдена",
-                    "undefined_round": "Раунд не найден",
-                    "not_have_money": "На балансе недостаточно денег.",
-                    "not_auth": "Вы не авторизовались",
-                    "user_blocked": "Вы заблокированы!",
-                    "self_transfer_money": "Вы не можете отправить деньги себе!",
-                    "success_bet": "Ставка принята",
-                    "msg_to_chat_without_frs_game": "Чтобы отправлять сообщения, нужно сыграть.",
-                    "not_data":"Нет данных для отображения",
-                    "big_text": "Max length text - 255 symbols!",
-                    "you_lose": "You lose!",
-                    "success_wd": "Ваша заявка на вывод принята.",
-                    "not_games": "You haven't games to your history",
-                    "few_seconds": "Дождитесь новой игры...",
-                    "timeout_bet": "Таймаут для ставок. Дождитесь новой игры...",
-                    "incorrect_bet": "Некорректное значение для ставки.",
-                    "empty_msg": "Пустое поле для сообщения.",
-                    "updated_field": "Поле успешно изменено",
-                    "server_error": "Ошибка на сервере.",
-                    "invalid_data": "На сервер передаются неверные данные.",
-                    "success_add_msg": "Сообщение успешно добавлено.",
-                    "invalid_amount": "Неверно указана сумма",
-                    "min_bet": "Минимальная ставка: #1 руб.",
-                    "max_bet": "Максимальная ставка: #1 руб.",
-                    "finish_users_of_round": "Максимальное кол-во игроков: 10"
-                },
-                "colors": <%- JSON.stringify(mw.config.get("frontend:colors")) %>,
-                "winnerWord": "Winner: ",
-                "sounds": {
-                    "winner": "/assets/sfx/winner.mp3",
-                    "loser": "/assets/sfx/error.mp3",
-                    "open": "/assets/sfx/case_scroll.wav"
-                },
-                <% if(room){ %>
-                "roomID": "<%= room._id %>",
-                <% } %>
-                "user": {
-                <% if(userInfo){ %>
-                    "name": "<%= userInfo.username %>",
-                    "email": "<%= userInfo.email %>",
-                    "token": "<%= token %>",
-                    "photo": "<%= userInfo.photo %>",
-                    "cash": "<%= userInfo.cash %>",
-                    "id": "<%= userInfo.id %>"
-                    <% if(adminpanel){ %>
-                    ,"_id": "<%= userInfo._id %>"
-                    <% } %>
-                <% } %>
-                }
-            }
         </script>
 
         <div id="preloader" class="isActive">
@@ -160,10 +67,6 @@
             <%- include elements/footer %>
         </div>
 
-
-        <!-- Chat -->
-        <%- include elements/chat %>
-
         <!-- Modals -->
         <%- include elements/modals %>
 
@@ -185,21 +88,10 @@
         <!-- Plugins -->
         <script src="/javascripts/plugins.js"></script>
 
-        <% if(gamePage){ %>
-        <!-- Cookie -->
-        <script src="/bower_components/jquery.cookie/jquery.cookie.js"></script>
-
-        <!-- d3JS -->
-        <script src="/javascripts/d3.min.js"></script>
-
-        <!-- Roulette Js -->
-        <script src="/javascripts/application/components/mainGame.js"></script>
-        <% } %>
-
         <!-- CORE -->
         <script src="/javascripts/core.js"></script>
 
-        <% if(adminpanel){ %>
+        <% if(admin){ %>
         <!-- ADMIN CORE -->
         <script src="/javascripts/admin-core.js"></script>
         <% } %>
@@ -211,12 +103,9 @@
                 setImmediate(function(){
                     window.config = $('body').getConfig();
                     Core.init();
-                    <% if(gamePage){ %>
-                    Core.runGame();
-                    <% } %>
-                    <% if("sessionMsg" in mw.req.query){
-                    let msg = mw.req.query.sessionMsg;
-                    let type = mw.req.query.msgType; %>
+                    <% if("sessionMsg" in get.req.query){
+                    let msg = get.req.query.sessionMsg;
+                    let type = get.req.query.msgType; %>
                     ViewMessage("<%= msg %>", "<%= type %>");
                     <% } %>
                 });

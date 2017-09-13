@@ -6,7 +6,7 @@ var _ = require('underscore');
 var striptags = require('striptags');
 var mongoose = require('mongoose');
 
-let Clients = reqlib('/models/clients');
+let Users = reqlib('/models/users');
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
@@ -19,7 +19,7 @@ router.get('/', async function(req, res, next) {
             return services.redirect(res, "/");
         }
 
-        user = await Clients.findOne({
+        user = await Users.findOne({
             id: user
         }).exec();
 

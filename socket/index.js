@@ -1,6 +1,6 @@
 'use strict';
 var config = reqlib('/config');
-let Clients = reqlib('/models/clients');
+let Users = reqlib('/models/users');
 
 function IOMethods(){
 	var self = this;

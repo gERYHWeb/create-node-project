@@ -6,7 +6,7 @@ var _ = require("underscore");
 var express = require('express');
 var router = express.Router();
 
-var Clients = reqlib('/models/clients');
+var Users = reqlib('/models/users');
 
 var redirect = function(req,res){
     services.redirect(res, "/admin/users");
@@ -48,7 +48,7 @@ router.get('/', function(req, res){
              data: data
          });
     };
-    Clients.find(options).count().exec(function(err, count){
+    Users.find(options).count().exec(function(err, count){
         var pages = services.paginator(
             req, res,
             count,
@@ -63,7 +63,7 @@ router.get('/', function(req, res){
         };
 
         if(count > 0){
-            Clients.find(options).
+            Users.find(options).
             limit(config.get("limit")).
             skip(offset).
             sort( { id: -1 } ).
@@ -97,7 +97,7 @@ router.get('/profile', async function(req, res) {
             return redirect(req, res);
         }
 
-        let client = await Clients.findOne({
+        let client = await Users.findOne({
             _id: id
         }).lean().exec();
         
@@ -192,7 +192,7 @@ router.get('/profile', async function(req, res) {
         data.referrals = [];
         data.transfer = [];
         if(client.refUsers){
-          let referrals = await Clients.find({
+          let referrals = await Users.find({
             refParent: client._id
           }).
           lean().
@@ -264,7 +264,7 @@ router.post('/edit-profile', function(req, res) {
     if(!(id)){
         return services.sendError("forbidden", res);
     }
-    Clients.findOne({
+    Users.findOne({
         _id: id
     }, function(err, client){
         if(client){
@@ -283,11 +283,11 @@ router.get('/delete', function(req, res){
     if(!(id)){
         return services.sendError("forbidden", res);
     }
-    Clients.findOne({
+    Users.findOne({
         _id: id
     }, function(err, client){
         if(client){
-            Clients.remove({
+            Users.remove({
                 _id: id
             }, function(err){
                 if (err) {
@@ -305,11 +305,11 @@ router.get('/ban', function(req, res){
     if(!(id)){
         return services.sendError("forbidden", res);
     }
-    Clients.findOne({
+    Users.findOne({
         _id: id
     }, function(err, client){
         if(client){
-            Clients.findOneAndUpdate({
+            Users.findOneAndUpdate({
                 _id: id
             }, {
                 isBanned: 1
@@ -329,11 +329,11 @@ router.get('/unban', function(req, res){
     if(!(id)){
         return services.sendError("forbidden", res);
     }
-    Clients.findOne({
+    Users.findOne({
         _id: id
     }, function(err, client){
         if(client){
-            Clients.findOneAndUpdate({
+            Users.findOneAndUpdate({
                 _id: id
             }, {
                 isBanned: 0

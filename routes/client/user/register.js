@@ -8,7 +8,7 @@ var config = reqlib('/config/');
 var services = reqlib("/lib/services");
 
 // Mongoose Models
-var Clients = reqlib('/models/clients');
+var Users = reqlib('/models/users');
 var router = require('express').Router();
 
 router.post('/', async function(req, res, next) {
@@ -47,7 +47,7 @@ router.post('/', async function(req, res, next) {
             return;
         }
 
-        let user = await Clients.findOne({
+        let user = await Users.findOne({
             username: username
         }).exec();
 
@@ -56,7 +56,7 @@ router.post('/', async function(req, res, next) {
                 "username": "user_already_exists!"
             }, res);
         }else{
-            user = await Clients.findOne({
+            user = await Users.findOne({
                 email: email
             }).exec();
 
@@ -73,21 +73,21 @@ router.post('/', async function(req, res, next) {
                 };
                 let ref = req.session.ref;
                 if(ref){
-                    ref = await Clients.findOne({
+                    ref = await Users.findOne({
                         refLink: ref
                     }).exec();
                     if(ref){
                         insert.refParent = ref._id;
                     }else ref = null;
                 }
-                user = await Clients.findOne().sort({id: -1}).exec();
+                user = await Users.findOne().sort({id: -1}).exec();
                 if(user){
                     insert.id = user.id + 1;
                 }else{
                     insert.id = 1;
                 }
-                insert.password = Clients.statEncryptPassword(insert.id + password);
-                user = await Clients.create(insert);
+                insert.password = Users.statEncryptPassword(insert.id + password);
+                user = await Users.create(insert);
                 if(user){
                       createLog({
                           user: user._id,

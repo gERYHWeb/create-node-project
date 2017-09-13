@@ -9,7 +9,7 @@ var mailer = reqlib("/middleware/mailer");
 var random = new (reqlib('/middleware/random'))();
 
 // Mongoose Models
-var Clients = reqlib('/models/clients');
+var Users = reqlib('/models/users');
 var router = require('express').Router();
 
 router.post('/', async function(req, res, next) {
@@ -21,14 +21,14 @@ router.post('/', async function(req, res, next) {
             return services.sendError(error, res);
         }
 
-        let client = await Clients.findOne({
+        let client = await Users.findOne({
             email: email
         });
 
         if(client){
             let newPassword = await random.randomString(9, 10);
-            let password = await Clients.statEncryptPassword(client.id + newPassword);
-            client = await Clients.findOneAndUpdate({
+            let password = await Users.statEncryptPassword(client.id + newPassword);
+            client = await Users.findOneAndUpdate({
                 email: email
             },{
                 password: password

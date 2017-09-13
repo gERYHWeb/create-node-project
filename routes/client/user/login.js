@@ -7,7 +7,7 @@ var ip = require('ip');
 var config = reqlib('/config/');
 
 // Mongoose Models
-var Clients = reqlib('/models/clients');
+var Users = reqlib('/models/users');
 var router = require('express').Router();
 
 router.post('/', async function(req, res, next) {
@@ -26,7 +26,7 @@ router.post('/', async function(req, res, next) {
 	        return services.sendError(errors, res);
 	    }
 
-        let client = await Clients.findOne({
+        let client = await Users.findOne({
             username: username
         }).exec();
 

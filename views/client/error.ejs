@@ -1,8 +1,5 @@
 <main class="wrapp-content">
     <div class="container">
-        <%- include ../elements/statistics %>
-    </div>
-    <div class="container">
         <!-- Main content -->
         <div class="content-block-02 content-404">
             <h1 class="title-01"><%= title %></h1>
@@ -10,7 +7,7 @@
 				<h2><%= h2 %></h2>
 				<h3><%= h3 %></h3>
 				<h4><a href="<%= link %>"><%= linkName %></a></h4>
-                <% if("debug_mode" in mw.req.query){ %>
+                <% if("debug_mode" in get.req.query){ %>
 				<pre><%= error.stack %></pre>
                 <% } %>
             </div>
