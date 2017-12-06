@@ -42,6 +42,7 @@
     "socket.io": "*",
     "striptags": "*",
     "underscore": "*",
+    "passport": "*",
     "winston": "*"
   }
 }
